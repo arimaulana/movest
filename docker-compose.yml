@@ -1,18 +1,46 @@
 version: "3.7"
 
 services:
-    movest:
-        container_name: movest
+    movest-app:
+        container_name: movest-app
         build:
             context: .
             target: development
         volumes:
             - .:/usr/src/app
         ports:
-            - ${APP_PORT}:${APP_PORT}
+            - ${APP_PORT:-3000}:${APP_PORT:-3000}
         command: npm start
         env_file:
             - .env
+        networks:
+            - webnet
+        depends_on:
+            - movest-db
+
+    movest-db:
+        image: mysql:5.7.29
+        container_name: movest-db
+        restart: always
+        command: --sql_mode="STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION"
+        environment:
+            MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+        ports:
+            - ${DB_PORT:-3306}:3306
+        networks:
+            - webnet
+        volumes:
+            - ./dump/sql-data:/docker-entrypoint-initdb.d
+
+    movest-pma:
+        image: phpmyadmin/phpmyadmin
+        container_name: movest-pma
+        restart: always
+        environment:
+            PMA_HOST: movest-db
+            PMA_PORT: 3306
+        ports:
+            - ${PMA_PORT:-8001}:80
         networks:
             - webnet
 
