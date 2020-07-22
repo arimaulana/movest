@@ -1,0 +1,20 @@
+version: "3.7"
+
+services:
+    movest:
+        container_name: movest
+        build:
+            context: .
+            target: development
+        volumes:
+            - .:/usr/src/app
+        ports:
+            - ${APP_PORT}:${APP_PORT}
+        command: npm start
+        env_file:
+            - .env
+        networks:
+            - webnet
+
+networks:
+    webnet:
