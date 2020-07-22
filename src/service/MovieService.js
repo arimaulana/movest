@@ -18,14 +18,7 @@ class MovieService {
 	 * @param {string} newMovie.watchURL
 	 */
 	async uploadMovie(movieId, newMovie) {
-		let {
-			title,
-			description,
-			duration,
-			artists,
-			genres,
-			watchURL,
-		} = newMovie;
+		let { title, description, duration, artists, genres, watchURL } = newMovie;
 
 		artists = artists.split(", ");
 		genres = genres.split(", ");
@@ -56,14 +49,7 @@ class MovieService {
 	 * @param {string} newMovie.watchURL
 	 */
 	async updateMovie(id, newMovie) {
-		let {
-			title,
-			description,
-			duration,
-			artists,
-			genres,
-			watchURL,
-		} = newMovie;
+		let { title, description, duration, artists, genres, watchURL } = newMovie;
 
 		artists = artists.split(", ");
 		genres = genres.split(", ");
@@ -82,9 +68,13 @@ class MovieService {
 			.setWatchURL(watchURL)
 			.build();
 
-		await this.movieRepository.updateMovie(id, movie);
+		await this.movieRepository.update(id, movie);
 
 		return id;
+	}
+
+	async getMovieById(id) {
+		return await this.movieRepository.getById(id);
 	}
 
 	/**

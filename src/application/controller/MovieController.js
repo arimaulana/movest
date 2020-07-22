@@ -38,6 +38,16 @@ class MovieController extends BaseController {
 		}
 	};
 
+	updateMovie = async (req, res) => {
+		try {
+			let { movieId } = req.params;
+			await this.movieService.updateMovie(movieId, req.body);
+			return this.ok(res, movieId);
+		} catch (e) {
+			return this.fail(res, e);
+		}
+	};
+
 	getMovies = async (req, res) => {
 		try {
 			let movies = [];
@@ -48,6 +58,16 @@ class MovieController extends BaseController {
 			}
 
 			return this.ok(res, movies);
+		} catch (e) {
+			return this.fail(res, e);
+		}
+	};
+
+	getMovieById = async (req, res) => {
+		try {
+			const movie = await this.movieService.getMovieById(req.params.movieId);
+
+			return this.ok(res, movie);
 		} catch (e) {
 			return this.fail(res, e);
 		}

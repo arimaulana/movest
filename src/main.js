@@ -6,9 +6,7 @@ const bodyParser = require("body-parser");
 const multer = require("multer");
 const path = require("path");
 
-const {
-	InMemoryMovieRepository,
-} = require("./repository/implementation/InMemoryMovieRepository");
+const { InMemoryMovieRepository } = require("./repository/implementation/InMemoryMovieRepository");
 const { MovieService } = require("./service/MovieService");
 const { MovieController } = require("./application/controller/MovieController");
 
@@ -58,30 +56,26 @@ class App {
 
 		router
 			.route("/")
-			.post(
-				uploadHandler.single("movie"),
-				this.movieController.uploadMovie
-			)
+			.post(uploadHandler.single("movie"), this.movieController.uploadMovie)
 			.get(this.movieController.getMovies);
+
+		router
+			.route("/:movieId")
+			.get(this.movieController.getMovieById)
+			.put(this.movieController.updateMovie);
 
 		return router;
 	}
 
 	listen(port = 3000) {
-		this.server = this.app.listen(port, () =>
-			console.log(`Server started at port ${port}`)
-		);
+		this.server = this.app.listen(port, () => console.log(`Server started at port ${port}`));
 	}
 
 	close() {
-		this.server.close((e) =>
-			console.error(`errors happen when closing the server: ${e}`)
-		);
+		this.server.close((e) => console.error(`errors happen when closing the server: ${e}`));
 	}
 }
 
-const app = new App(
-	new MovieController(new MovieService(new InMemoryMovieRepository()))
-);
+const app = new App(new MovieController(new MovieService(new InMemoryMovieRepository())));
 app.initApp();
 app.listen(process.env.APP_PORT);
