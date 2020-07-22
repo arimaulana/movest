@@ -1,6 +1,6 @@
 "use strict";
 
-export class Movie {
+class Movie {
 	constructor(id, title, description, duration, artists, genres, watchURL, totalVote) {
 		this.id = id;
 		this.title = title;
@@ -12,8 +12,9 @@ export class Movie {
 		this.totalVote = totalVote;
 	}
 }
+exports.Movie = Movie;
 
-export class MovieBuilder {
+class MovieBuilder {
 	setId(id) {
 		this.id = id;
 		return this;
@@ -66,3 +67,4 @@ export class MovieBuilder {
 		);
 	}
 }
+exports.MovieBuilder = MovieBuilder;

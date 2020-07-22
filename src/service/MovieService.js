@@ -1,33 +1,40 @@
 "use strict";
 
-const { v4: uuidv4 } = require("uuid");
+const { MovieBuilder } = require("../domain/Movie");
 
-import { MovieBuilder } from "../domain/Movie";
-
-export class MovieUseCase {
+class MovieService {
 	constructor(movieRepository) {
 		this.movieRepository = movieRepository;
 	}
 
 	/**
+	 * @param {string} movieId
 	 * @param {object} newMovie
 	 * @param {string} newMovie.title
 	 * @param {string} newMovie.description
 	 * @param {string | number} newMovie.duration
-	 * @param {string[]} newMovie.artists
-	 * @param {string[]} newMovie.genres
+	 * @param {string} newMovie.artists
+	 * @param {string} newMovie.genres
 	 * @param {string} newMovie.watchURL
 	 */
-	async uploadMovie(newMovie) {
-		let { title, description, duration, artists, genres, watchURL } = newMovie;
+	async uploadMovie(movieId, newMovie) {
+		let {
+			title,
+			description,
+			duration,
+			artists,
+			genres,
+			watchURL,
+		} = newMovie;
 
-		let movieId = `${uuidv4()}-${new Date().getTime()}`; // will be the video filename
+		artists = artists.split(", ");
+		genres = genres.split(", ");
 
 		let movie = new MovieBuilder()
 			.setId(movieId)
 			.setTitle(title)
 			.setDescription(description)
-			.setDuration(duration)
+			.setDuration(parseInt(duration))
 			.setArtists(artists)
 			.setGenres(genres)
 			.setWatchURL(watchURL)
@@ -44,12 +51,22 @@ export class MovieUseCase {
 	 * @param {string} newMovie.title
 	 * @param {string} newMovie.description
 	 * @param {string | number} newMovie.duration
-	 * @param {string[]} newMovie.artists
-	 * @param {string[]} newMovie.genres
+	 * @param {string} newMovie.artists
+	 * @param {string} newMovie.genres
 	 * @param {string} newMovie.watchURL
 	 */
 	async updateMovie(id, newMovie) {
-		let { title, description, duration, artists, genres, watchURL } = newMovie;
+		let {
+			title,
+			description,
+			duration,
+			artists,
+			genres,
+			watchURL,
+		} = newMovie;
+
+		artists = artists.split(", ");
+		genres = genres.split(", ");
 
 		let oldMovie = await this.movieRepository.getById(id);
 
@@ -59,7 +76,7 @@ export class MovieUseCase {
 			.setId(id)
 			.setTitle(title)
 			.setDescription(description)
-			.setDuration(duration)
+			.setDuration(parseInt(duration))
 			.setArtists(artists)
 			.setGenres(genres)
 			.setWatchURL(watchURL)
@@ -92,3 +109,4 @@ export class MovieUseCase {
 		return await this.movieRepository.getPagination(options);
 	}
 }
+exports.MovieService = MovieService;

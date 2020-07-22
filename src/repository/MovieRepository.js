@@ -1,6 +1,6 @@
 "use strict";
 
-export class MovieRepository {
+class MovieRepository {
 	constructor() {
 		if (new.target === MovieRepository) {
 			throw new TypeError("Cannot construct Abstract instances directly.");
@@ -31,3 +31,4 @@ export class MovieRepository {
 		throw new Error("This method is not implemented yet.");
 	}
 }
+exports.MovieRepository = MovieRepository;
