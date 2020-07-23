@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: movest-db:3306
--- Generation Time: Jul 23, 2020 at 08:03 AM
+-- Generation Time: Jul 23, 2020 at 02:47 PM
 -- Server version: 5.7.29
 -- PHP Version: 7.4.6
 
@@ -108,6 +108,34 @@ INSERT INTO `movies` (`id`, `title`, `description`, `duration`, `artists`, `watc
 ('1595438393095', 'STRANGER THINGS', 'Stranger Things is an American science fiction horror web television series created by the Duffer Brothers and released on Netflix.', 60, 'Winona Ryder, David Harbour, Millie Bobby Brown', 'stranger-things', 0, 0),
 ('1595438393096', 'STARGIRL', 'all that changes when he meets Stargirl Caraway (Grace VanderWaal), a confident and colorful new student with a penchant for the ukulele, who stands out in a crowd.', 107, 'Grace VanderWaal, Graham Verchere, Giancarlo Esposito, Maximiliano Hernandez', 'stargirl', 7, 0),
 ('542dce19-ad4e-46f2-bb13-bb4090c55694-1595468179947', 'Jojo Rabbit', 'Writer director Taika Waititi (THOR: RAGNAROK, HUNT FOR THE WILDERPEOPLE), brings his signature style of humor and pathos to his latest film, JOJO RABBIT, a World War II satire that follows a lonely German boy (Roman Griffin Davis as Jojo) whose world view is turned upside down when he discovers his single mother (Scarlett Johansson) is hiding a young Jewish girl (Thomasin McKenzie) in their attic. Aided only by his idiotic imaginary friend, Adolf Hitler (Taika Waititi), Jojo must confront his blind nationalism.', 108, 'Roman Griffin Davis, Thomasin McKenzie, Taika Waititi, Rebel Wilson, Sam Rockwell, Scarlett Johansson', 'jojo-rabbit', 30, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user`
+--
+
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE IF NOT EXISTS `user` (
+  `id` varchar(255) NOT NULL COMMENT 'ID of the user',
+  `username` varchar(50) NOT NULL COMMENT 'Username of the user',
+  `password` varchar(50) NOT NULL COMMENT 'Password',
+  `role` enum('admin','member','visitor') NOT NULL DEFAULT 'member' COMMENT 'Role of the user',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='This table is used for storing data user';
+
+--
+-- Truncate table before insert `user`
+--
+
+TRUNCATE TABLE `user`;
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`id`, `username`, `password`, `role`) VALUES
+('wodfjwadlfkj-123jasdfasdf-30djf01jf-123123wer', 'arimaulana', '123123123', 'admin');
 
 --
 -- Constraints for dumped tables

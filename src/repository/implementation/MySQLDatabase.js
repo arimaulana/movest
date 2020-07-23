@@ -2,6 +2,7 @@
 
 const mysql = require("mysql2/promise");
 
+let connection = null;
 class MySQLDatabase {
 	constructor(config) {
 		this.config = config;
@@ -10,7 +11,7 @@ class MySQLDatabase {
 	_createConnection = async () => {
 		let { name, user, pass, host, port } = this.config;
 
-		this.connection = mysql.createPool({
+		connection = mysql.createPool({
 			database: name,
 			user: user,
 			password: pass,
@@ -20,11 +21,11 @@ class MySQLDatabase {
 	};
 
 	getConnection = async () => {
-		if (!this.connection) {
+		if (!connection) {
 			await this._createConnection();
 		}
 
-		return await this.connection.getConnection();
+		return await connection.getConnection();
 	};
 }
 exports.MySQLDatabase = MySQLDatabase;
