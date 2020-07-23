@@ -151,6 +151,17 @@ class MySQLMovieRepository extends MovieRepository {
 		};
 	};
 
+	getMovieViewership = async (movieId) => {
+		let db = await this.connection.getConnection();
+
+		let sql = `select v.user_id userId from viewership v where movie_id = ?;`;
+		let [viewership] = await db.query(sql, [movieId]);
+
+		db.release();
+
+		return viewership.map(viewer => viewer.userId || "anonymous");
+	}
+
 	save = async (movie) => {
 		let db = await this.connection.getConnection();
 

@@ -27,6 +27,10 @@ class MovieRepository {
 		throw new Error("This method is not implemented yet.");
 	}
 
+	async getMovieViewership(movieId) {
+		throw new Error("This method is not implemented yet.");
+	}
+
 	async save(movie) {
 		throw new Error("This method is not implemented yet.");
 	}

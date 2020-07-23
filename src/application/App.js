@@ -133,6 +133,9 @@ class App {
 			.get(this.movieController.getMovieById)
 			.put(this._isAuthenticated, this.movieController.updateMovie);
 
+		router.route('/:movieId/viewership')
+			.get(this.movieController.getMovieViewership)
+
 		return router;
 	}
 

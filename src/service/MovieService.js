@@ -100,5 +100,12 @@ class MovieService {
 	async getMoviePagination(options) {
 		return await this.movieRepository.getPagination(options);
 	}
+
+	async getMovieViewership(movieId) {
+		let movie = await this.movieRepository.getById(movieId);
+		if (!movie) throw new Error("Invalid movie id.");
+
+		return await this.movieRepository.getMovieViewership(movieId);
+	}
 }
 exports.MovieService = MovieService;

@@ -98,5 +98,15 @@ class MovieController extends BaseController {
 			return this.fail(res, e);
 		}
 	};
+
+	getMovieViewership = async (req, res) => {
+		try {
+			const movieViewership = await this.movieService.getMovieViewership(req.params.movieId);
+
+			return this.ok(res, movieViewership);
+		} catch (e) {
+			return this.fail(res, e);
+		}
+	}
 }
 exports.MovieController = MovieController;
