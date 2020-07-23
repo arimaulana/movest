@@ -10,9 +10,11 @@ services:
             - .:/usr/src/app
         ports:
             - ${APP_PORT:-3000}:${APP_PORT:-3000}
-        command: npm start
+        command: sh -c "dockerize -wait tcp://movest-db:3306 && npm start"
         env_file:
             - .env
+        environment:
+            DOCKER_DB_HOST: movest-db
         networks:
             - webnet
         depends_on:
@@ -43,6 +45,8 @@ services:
             - ${PMA_PORT:-8001}:80
         networks:
             - webnet
+        depends_on:
+            - movest-db
 
 networks:
     webnet:
