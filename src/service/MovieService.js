@@ -95,9 +95,7 @@ class MovieService {
 	/**
 	 * @param {object} options
 	 * @param {number} options.page
-	 * @param {number} options.perpage
-	 * @param {number} options.sortBy field name
-	 * @param {string} options.sortType it could be asc or desc
+	 * @param {number} options.perPage
 	 */
 	async getMoviePagination(options) {
 		return await this.movieRepository.getPagination(options);

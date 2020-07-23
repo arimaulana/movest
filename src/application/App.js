@@ -54,6 +54,8 @@ class App {
 			.post(uploadHandler.single("movie"), this.movieController.uploadMovie)
 			.get(this.movieController.getMovies);
 
+		router.route("/pagination").get(this.movieController.getMoviesPagination);
+
 		router.route("/top").get(this.movieController.getMostViewed);
 
 		router

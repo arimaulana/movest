@@ -69,10 +69,14 @@ class MySQLMovieRepository extends MovieRepository {
 	};
 
 	getPagination = async (options) => {
+		let { page = 1, perPage = 10 } = options;
+
 		let db = await this.connection.getConnection();
 
-		let sql = `select * from movies;`;
-		let [rows] = await db.query(sql);
+		const offset = (page - 1) * perPage;
+
+		let sql = `select * from movies limit ? offset ?;`;
+		let [rows] = await db.query(sql, [perPage, offset]);
 
 		let moviesId = rows.map((movie) => movie.id);
 		let sqlGenre = `select * from genre_tracker where movie_id in (${generateQuestionMark(
@@ -80,9 +84,22 @@ class MySQLMovieRepository extends MovieRepository {
 		)});`;
 		let [genreRows] = await db.query(sqlGenre, moviesId);
 
+		let sqlCount = `select count(id) total from movies;`;
+		let [totalRows] = await db.query(sqlCount);
+
 		db.release();
 
-		return persistToDomain(rows, genreRows);
+		let total = Array.isArray(totalRows) && totalRows.length > 0 ? totalRows[0].total : 0;
+
+		let paginationData = {
+			totalData: total,
+			totalPage: Math.ceil(total / perPage),
+			page: page,
+			perPage: perPage,
+			data: persistToDomain(rows, genreRows),
+		};
+
+		return paginationData;
 	};
 
 	getByKeyword = async (keyword) => {

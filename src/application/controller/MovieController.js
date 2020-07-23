@@ -63,6 +63,22 @@ class MovieController extends BaseController {
 		}
 	};
 
+	getMoviesPagination = async (req, res) => {
+		try {
+			const page = req.query.page ? parseInt(req.query.page) : 1;
+			const perPage = req.query.perPage ? parseInt(req.query.perPage) : 10;
+
+			const paginationMovies = await this.movieService.getMoviePagination({
+				page: page,
+				perPage: perPage,
+			});
+
+			return this.ok(res, paginationMovies);
+		} catch (e) {
+			return this.fail(res, e);
+		}
+	};
+
 	getMovieById = async (req, res) => {
 		try {
 			const movie = await this.movieService.getMovieById(req.params.movieId);
