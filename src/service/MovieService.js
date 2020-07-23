@@ -88,6 +88,10 @@ class MovieService {
 		return await this.movieRepository.getAll();
 	}
 
+	async getMostViewed() {
+		return await this.movieRepository.getMostViewedMovieAndGenre();
+	}
+
 	/**
 	 * @param {object} options
 	 * @param {number} options.page

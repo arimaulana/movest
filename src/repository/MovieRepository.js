@@ -23,6 +23,10 @@ class MovieRepository {
 		throw new Error("This method is not implemented yet.");
 	}
 
+	async getMostViewedMovieAndGenre() {
+		throw new Error("This method is not implemented yet.");
+	}
+
 	async save(movie) {
 		throw new Error("This method is not implemented yet.");
 	}

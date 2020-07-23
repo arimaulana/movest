@@ -10,7 +10,7 @@ services:
             - .:/usr/src/app
         ports:
             - ${APP_PORT:-3000}:${APP_PORT:-3000}
-        command: sh -c "dockerize -wait tcp://movest-db:3306 && npm start"
+        command: sh -c "dockerize -wait tcp://movest-db:3306 -timeout 20s && npm start"
         env_file:
             - .env
         environment:

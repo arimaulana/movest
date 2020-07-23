@@ -22,29 +22,29 @@ create the backend side of the system.
 
 ## Basic Requirements
 
-- As an admin, I would be able to create and upload movies with required information related to a movies are at least title, description, duration, artists, genres, watch URL (points to the uploaded movie file)
-- As an admin, I would be able to update movie and its related information
-- As an admin, I would be able to see the most viewed movie and most viewed genre
+-   As an admin, I would be able to create and upload movies with required information related to a movies are at least title, description, duration, artists, genres, watch URL (points to the uploaded movie file)
+-   As an admin, I would be able to update movie and its related information
+-   As an admin, I would be able to see the most viewed movie and most viewed genre
 
-- As a visitor, I would be able to list all movies with pagination
-- As a visitor, I would be able to search movie by title / description / artists / genres
-- As a visitor, I would be able to track movie viewership
+-   As a visitor, I would be able to list all movies with pagination
+-   As a visitor, I would be able to search movie by title / description / artists / genres
+-   As a visitor, I would be able to track movie viewership
 
 ## Bonus Requirements
 
-- Vote system:
+-   Vote system:
 
-  - As a member, I would be able to login
-  - As a member, I would be able to vote a movie
-  - As a member, I would be able to unvote a movie
+    -   As a member, I would be able to login
+    -   As a member, I would be able to vote a movie
+    -   As a member, I would be able to unvote a movie
 
-  - As a visitor, I would be able to list all of the user's voted movie
+    -   As a visitor, I would be able to list all of the user's voted movie
 
-  - As an admin, I would be able to see most voted movie and most viewed genre
+    -   As an admin, I would be able to see most voted movie and most viewed genre
 
-- Authentication System:
+-   Authentication System:
 
-  - As a visitor, I would be able to register
-  - As a member, I would be able to login and logout
+    -   As a visitor, I would be able to register
+    -   As a member, I would be able to login and logout
 
-- As a visitor, I would be able to trace viewership based on watching duration
+-   As a visitor, I would be able to trace viewership based on watching duration. Note!!! in this requirement, its not clear yet about how anonymous and member rule when see the movie. So i'm assuming to make it unique, all visitor will behave the same as one member.
