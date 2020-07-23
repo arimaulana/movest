@@ -48,5 +48,14 @@ class UserController extends BaseController {
 			return this.fail(res, e);
 		}
 	};
+
+	logoutUser = async (req, res) => {
+		try {
+			req.logout();
+			return this.ok(res);
+		} catch (e) {
+			return this.fail(res, e);
+		}
+	}
 }
 exports.UserController = UserController;

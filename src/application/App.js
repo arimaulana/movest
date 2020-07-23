@@ -106,6 +106,9 @@ class App {
 		router.route("/signup")
 			.post(this.userController.registerUser);
 
+		router.route('/logout')
+			.post(this.userController.logoutUser);
+
 		return router;
 	}
 
