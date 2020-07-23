@@ -2,7 +2,6 @@
 
 const { BaseController } = require("./BaseController");
 const passport = require("passport");
-const jwt = require("jsonwebtoken");
 
 class UserController extends BaseController {
 	getService = () => {
@@ -36,20 +35,10 @@ class UserController extends BaseController {
 						return this.fail(res, err || error);
 					}
 
-					req.login(user, { session: false }, async (error) => {
+					req.login(user, { session: true }, async (error) => {
 						if (error) return this.fail(res, error);
 
-						let tokenPayload = {
-							userId: user.id,
-							role: user.role,
-						};
-
-						let token = jwt.sign(tokenPayload, process.env.JWT_SECRET, {
-							algorithm: "HS512",
-							expiresIn: "24h",
-						});
-
-						return this.ok(res, { token: token, id: user.id });
+						return this.ok(res);
 					});
 				} catch (e) {
 					return this.fail(res, e);

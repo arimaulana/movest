@@ -6,8 +6,7 @@ const multer = require("multer");
 const path = require("path");
 const passport = require("passport");
 const { Strategy: LocalStrategy } = require("passport-local");
-const JwtStrategy = require("passport-jwt").Strategy;
-const ExtractJwt = require("passport-jwt").ExtractJwt;
+const session = require("express-session");
 
 class App {
 	constructor(movieController, userController) {
@@ -40,6 +39,15 @@ class App {
 	}
 
 	_usePassportMiddleware() {
+		this.app.use(session({
+			name: 'movest',
+			secret: process.env.SECRET_KEY,
+			saveUninitialized: false,
+			resave: true,
+		}));
+		this.app.use(passport.initialize());
+		this.app.use(passport.session());
+
 		// for login handler
 		passport.use(
 			"login",
@@ -61,34 +69,22 @@ class App {
 			)
 		);
 
-		// for verifying the token that sent by user is valid
-		passport.use(
-			new JwtStrategy(
-				{
-					// secret we used to sign out JWT
-					secretOrKey: process.env.JWT_SECRET,
-					// we expect the user to send the token from auth header as bearer token
-					jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-					// allowed algorithm
-					algorithms: ["HS512"],
-				},
-				async (jwtPayload, done) => {
-					try {
-						let userService = await this.userController.getService();
-						let user = await userService.findUserById(jwtPayload.userId);
-						if (!user) throw new Error("Invalid token.");
+		passport.serializeUser((user, done) => {
+			let sessionUser = { id: user.id, role: user.role };
+			done(null, sessionUser);
+		});
 
-						return done(null, jwtPayload);
-					} catch (e) {
-						done(e);
-					}
-				}
-			)
-		);
+		passport.deserializeUser(async (sessionUser, done) => {
+			done(null, sessionUser); // straight return whats inside the session (see serializeUser)
+		});
 	}
 
-	_isAuthenticated() {
-		return passport.authenticate("jwt", { session: false });
+	_isAuthenticated(req, res, next) {
+		if (req.isAuthenticated()) {
+			return next();
+		} else {
+			return next(new Error('Unauthorized'))
+		}
 	}
 
 	_getAppRouter() {
@@ -104,8 +100,11 @@ class App {
 	_getUserRouter() {
 		let router = express.Router();
 
-		router.route("/login").post(this.userController.loginUser);
-		router.route("/signup").post(this.userController.registerUser);
+		router.route("/login")
+			.post(this.userController.loginUser);
+
+		router.route("/signup")
+			.post(this.userController.registerUser);
 
 		return router;
 	}
@@ -117,23 +116,19 @@ class App {
 
 		let router = express.Router();
 
-		router
-			.route("/")
-			.post(
-				this._isAuthenticated(),
-				uploadHandler.single("movie"),
-				this.movieController.uploadMovie
-			)
+		router.route("/")
+			.post(this._isAuthenticated, uploadHandler.single("movie"), this.movieController.uploadMovie)
 			.get(this.movieController.getMovies);
 
-		router.route("/pagination").get(this.movieController.getMoviesPagination);
+		router.route("/pagination")
+			.get(this.movieController.getMoviesPagination);
 
-		router.route("/top").get(this._isAuthenticated(), this.movieController.getMostViewed);
+		router.route("/top")
+			.get(this._isAuthenticated, this.movieController.getMostViewed);
 
-		router
-			.route("/:movieId")
+		router.route("/:movieId")
 			.get(this.movieController.getMovieById)
-			.put(this._isAuthenticated(), this.movieController.updateMovie);
+			.put(this._isAuthenticated, this.movieController.updateMovie);
 
 		return router;
 	}
