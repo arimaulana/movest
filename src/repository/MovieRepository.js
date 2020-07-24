@@ -11,6 +11,10 @@ class MovieRepository {
 		throw new Error("This method is not implemented yet.");
 	}
 
+	async getByWatchURL(watchURL, movieId) {
+		throw new Error("This method is not implemented yet.");
+	}
+
 	async getAll() {
 		throw new Error("This method is not implemented yet.");
 	}
@@ -24,6 +28,18 @@ class MovieRepository {
 	}
 
 	async getMostViewedMovieAndGenre() {
+		throw new Error("This method is not implemented yet.");
+	}
+
+	createViewership = async (movieId, userId) => {
+		throw new Error("This method is not implemented yet.");
+	}
+
+	updateViewership = async (movieId, userId, duration, timestamp) => {
+		throw new Error("This method is not implemented yet.");
+	}
+
+	async getRowViewership(movieId, userId) {
 		throw new Error("This method is not implemented yet.");
 	}
 

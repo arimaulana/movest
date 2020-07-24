@@ -129,6 +129,10 @@ class App {
 		router.route("/top")
 			.get(this._isAuthenticated, this.movieController.getMostViewed);
 
+		router.route("/watch")
+			.get(this.movieController.watchMovie)
+			.put(this.movieController.updateWatchDuration);
+
 		router.route("/:movieId")
 			.get(this.movieController.getMovieById)
 			.put(this._isAuthenticated, this.movieController.updateMovie);

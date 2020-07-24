@@ -1,7 +1,7 @@
 "use strict";
 
 class Movie {
-	constructor(id, title, description, duration, artists, genres, watchURL, totalVote) {
+	constructor(id, title, description, duration, artists, genres, watchURL, totalView = 0) {
 		this.id = id;
 		this.title = title;
 		this.description = description;
@@ -9,7 +9,7 @@ class Movie {
 		this.artists = artists;
 		this.genres = genres;
 		this.watchURL = watchURL;
-		this.totalVote = totalVote;
+		this.totalView = totalView;
 	}
 }
 exports.Movie = Movie;
@@ -50,8 +50,8 @@ class MovieBuilder {
 		return this;
 	}
 
-	setTotalVote(totalVote) {
-		this.totalVote = totalVote;
+	setTotalView(totalView) {
+		this.totalView = totalView;
 		return this;
 	}
 
@@ -63,7 +63,8 @@ class MovieBuilder {
 			this.duration,
 			this.artists,
 			this.genres,
-			this.watchURL
+			this.watchURL,
+			this.totalView
 		);
 	}
 }

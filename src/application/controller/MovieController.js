@@ -89,6 +89,28 @@ class MovieController extends BaseController {
 		}
 	};
 
+	watchMovie = async (req, res) => {
+		try {
+			let userId = req.user && req.user.id ? req.user.id : null;
+			await this.movieService.watchMovie(req.query.v, userId);
+
+			return this.ok(res);
+		} catch (e) {
+			return this.fail(res, e);
+		}
+	}
+
+	updateWatchDuration = async (req, res) => {
+		try {
+			let userId = req.user && req.user.id ? req.user.id : null;
+			await this.movieService.updateWatchDuration(req.query.v, userId, req.body.duration, new Date(req.body.timestamp));
+
+			return this.ok(res);
+		} catch (e) {
+			return this.fail(res, e);
+		}
+	}
+
 	getMostViewed = async (req, res) => {
 		try {
 			const mostViewed = await this.movieService.getMostViewed();
