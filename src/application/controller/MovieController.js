@@ -130,5 +130,35 @@ class MovieController extends BaseController {
 			return this.fail(res, e);
 		}
 	}
+
+	getVotedMovies = async (req, res) => {
+		try {
+			const movies = await this.movieService.getVotedMovies();
+
+			return this.ok(res, movies);
+		} catch (e) {
+			return this.fail(res, e);
+		}
+	}
+
+	voteMovie = async (req, res) => {
+		try {
+			await this.movieService.voteMovie(req.params.movieId, req.user.id);
+
+			return this.ok(res);
+		} catch (e) {
+			return this.fail(res, e);
+		}
+	}
+
+	unvoteMovie = async (req, res) => {
+		try {
+			await this.movieService.unvoteMovie(req.params.movieId, req.user.id);
+
+			return this.ok(res);
+		} catch (e) {
+			return this.fail(res, e);
+		}
+	}
 }
 exports.MovieController = MovieController;

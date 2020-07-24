@@ -47,6 +47,18 @@ class MovieRepository {
 		throw new Error("This method is not implemented yet.");
 	}
 
+	async getVotedMovies() {
+		throw new Error("This method is not implemented yet.");
+	}
+
+	async voteMovie(movieId, userId) {
+		throw new Error("This method is not implemented yet.");
+	}
+
+	async unvoteMovie(movieId, userId) {
+		throw new Error("This method is not implemented yet.");
+	}
+
 	async save(movie) {
 		throw new Error("This method is not implemented yet.");
 	}

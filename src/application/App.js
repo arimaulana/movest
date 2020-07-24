@@ -87,6 +87,20 @@ class App {
 		}
 	}
 
+	_isAdmin(req, res, next) {
+		try {
+			if (!req.user) {
+				throw new Error("Unauthorized");
+			} else if (req.user.role !== 'admin') {
+				throw new Error("Permission denied.");
+			}
+
+			next();
+		} catch (e) {
+			next(e);
+		}
+	}
+
 	_getAppRouter() {
 		let router = express.Router();
 
@@ -120,25 +134,47 @@ class App {
 		let router = express.Router();
 
 		router.route("/")
-			.post(this._isAuthenticated, uploadHandler.single("movie"), this.movieController.uploadMovie)
+			.post(
+				this._isAuthenticated,
+				this._isAdmin,
+				uploadHandler.single("movie"),
+				this.movieController.uploadMovie
+			)
 			.get(this.movieController.getMovies);
 
 		router.route("/pagination")
 			.get(this.movieController.getMoviesPagination);
 
 		router.route("/top")
-			.get(this._isAuthenticated, this.movieController.getMostViewed);
+			.get(
+				this._isAuthenticated,
+				this._isAdmin,
+				this.movieController.getMostViewed
+			);
 
 		router.route("/watch")
 			.get(this.movieController.watchMovie)
 			.put(this.movieController.updateWatchDuration);
 
+		router.route("/vote")
+			.get(this.movieController.getVotedMovies)
+
 		router.route("/:movieId")
 			.get(this.movieController.getMovieById)
-			.put(this._isAuthenticated, this.movieController.updateMovie);
+			.put(
+				this._isAuthenticated,
+				this._isAdmin,
+				this.movieController.updateMovie
+			);
 
 		router.route('/:movieId/viewership')
 			.get(this.movieController.getMovieViewership)
+
+		router.route("/:movieId/vote")
+			.put(this._isAuthenticated, this.movieController.voteMovie);
+
+		router.route("/:movieId/unvote")
+			.put(this._isAuthenticated, this.movieController.unvoteMovie);
 
 		return router;
 	}

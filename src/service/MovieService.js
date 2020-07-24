@@ -160,5 +160,23 @@ class MovieService {
 
 		return await this.movieRepository.getMovieViewership(movieId);
 	}
+
+	async getVotedMovies() {
+		return await this.movieRepository.getVotedMovies();
+	}
+
+	async voteMovie(movieId, userId) {
+		let movie = await this.movieRepository.getById(movieId);
+		if (!movie) throw new Error("Invalid movie id.");
+
+		return await this.movieRepository.voteMovie(movieId, userId);
+	}
+
+	async unvoteMovie(movieId, userId) {
+		let movie = await this.movieRepository.getById(movieId);
+		if (!movie) throw new Error("Invalid movie id.");
+
+		return await this.movieRepository.unvoteMovie(movieId, userId);
+	}
 }
 exports.MovieService = MovieService;

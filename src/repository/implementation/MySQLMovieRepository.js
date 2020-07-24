@@ -213,6 +213,38 @@ class MySQLMovieRepository extends MovieRepository {
 		return viewership.map(viewer => viewer.userId || "anonymous");
 	}
 
+	getVotedMovies = async () => {
+		let db = await this.connection.getConnection();
+
+		let sql = `select m.* from vote_tracker v inner join movies m on m.id = v.movie_id group by v.movie_id;`;
+		let [rows] = await db.query(sql);
+
+		let sqlGenre = `select * from genre_tracker;`;
+		let [genreRows] = await db.query(sqlGenre);
+
+		db.release();
+
+		return persistToDomain(rows, genreRows);
+	}
+
+	async voteMovie(movieId, userId) {
+		let db = await this.connection.getConnection();
+
+		let sql = `insert into vote_tracker (movie_id, user_id) values (?, ?);`;
+		await db.query(sql, [movieId, userId]);
+
+		db.release();
+	}
+
+	async unvoteMovie(movieId, userId) {
+		let db = await this.connection.getConnection();
+
+		let sql = `delete from vote_tracker where movie_id = ? and user_id = ?`;
+		await db.query(sql, [movieId, userId]);
+
+		db.release();
+	}
+
 	save = async (movie) => {
 		let db = await this.connection.getConnection();
 
