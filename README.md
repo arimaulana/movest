@@ -48,3 +48,6 @@ create the backend side of the system.
     -   As a member, I would be able to login and logout
 
 -   As a visitor, I would be able to trace viewership based on watching duration. Note!!! in this requirement, its not clear yet about how anonymous and member rule when see the movie. So i'm assuming to make it unique, all visitor will behave the same as one member.
+
+## API Documentation
+- https://www.getpostman.com/collections/deaec758c598d2cf2682
