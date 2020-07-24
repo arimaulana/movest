@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: movest-db:3306
--- Generation Time: Jul 24, 2020 at 12:30 AM
+-- Generation Time: Jul 24, 2020 at 02:55 AM
 -- Server version: 5.7.29
 -- PHP Version: 7.4.6
 
@@ -95,7 +95,7 @@ TRUNCATE TABLE `movies`;
 INSERT INTO `movies` (`id`, `title`, `description`, `duration`, `artists`, `watch_url`, `total_view`) VALUES
 ('1595438393089', 'WARRIOR NUN', 'A woman regains consciousness in a morgue to discover she has powers which force her to join in on a fight against good and evil.', 60, 'Alba Baptista, Tristan Ulloa, Kristina Tonteri-Young, Lorena Andrea, Toya Turner, Thekla Reuten', 'warrior-nun', 11),
 ('1595438393090', 'GIRI/HAJI', 'A Tokyo detective heads to London to find his missing brother, who\'s been linked to the Yakuza and accused of murder.', 60, 'Charlie Creed-Miles, Takehiro Hira, Togo Igawa', 'giri-haji', 2),
-('1595438393091', 'DARK', 'Dark is set in a German town in present day where the disappearance of two young children exposes the double lives and fractured relationships among four families.', 60, 'Louis Hofmann, Oliver Masucci, JÃ¶rdis Triebel', 'dark', 3),
+('1595438393091', 'DARK', 'Dark is set in a German town in present day where the disappearance of two young children exposes the double lives and fractured relationships among four families.', 60, 'Louis Hofmann, Oliver Masucci, JÃƒÂ¶rdis Triebel', 'dark', 3),
 ('1595438393092', 'OZARK', 'A family moves into an Ozarks resort community and faces struggles in a new place filled with dirty money.', 60, 'Jason Bateman, Laura Linney, Julia Garner', 'ozark', 3),
 ('1595438393093', 'WHEN THEY SEE US', 'Depiction of the 1989 case involving \"The Central Park Five,\" in which five black and Latino teens were convicted of raping a Central Park jogger.\r\n', 60, 'Jovan Adepo, Reginald L. Barnes, Asante Blackk', 'when-they-see-us', 8),
 ('1595438393094', 'THE LAST KINGDOM', 'Anglo-Saxons are attacked by Viking forces. Uhtred, born a Saxon but raised by Vikings, finds his loyalties tested as he tries to claim his birthright and help create a new nation.\r\n', 60, 'Alexander Dreymon, Matthew MacFadyen, Rutger Hauer', 'the-last-kingdom', 25),
@@ -166,6 +166,32 @@ INSERT INTO `viewership` (`movie_id`, `user_id`, `duration`, `last_update`) VALU
 ('1595438393094', NULL, 4, '2020-07-23 22:40:25'),
 ('1595438393096', NULL, 8, '2020-07-23 22:40:25');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `vote_tracker`
+--
+
+DROP TABLE IF EXISTS `vote_tracker`;
+CREATE TABLE IF NOT EXISTS `vote_tracker` (
+  `user_id` varchar(50) NOT NULL COMMENT 'User ID of the voters',
+  `movie_id` varchar(50) NOT NULL COMMENT 'Movie that being voted',
+  KEY `fk_vote_tracker_to_movies` (`movie_id`),
+  KEY `fk_vote_tracker_to_user` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Truncate table before insert `vote_tracker`
+--
+
+TRUNCATE TABLE `vote_tracker`;
+--
+-- Dumping data for table `vote_tracker`
+--
+
+INSERT INTO `vote_tracker` (`user_id`, `movie_id`) VALUES
+('wodfjwadlfkj-123jasdfasdf-30djf01jf-123123wer', '542dce19-ad4e-46f2-bb13-bb4090c55694-1595468179947');
+
 --
 -- Constraints for dumped tables
 --
@@ -182,4 +208,11 @@ ALTER TABLE `genre_tracker`
 ALTER TABLE `viewership`
   ADD CONSTRAINT `fk_viewership_to_movies` FOREIGN KEY (`movie_id`) REFERENCES `movies` (`id`),
   ADD CONSTRAINT `fk_viewership_to_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
+
+--
+-- Constraints for table `vote_tracker`
+--
+ALTER TABLE `vote_tracker`
+  ADD CONSTRAINT `fk_vote_tracker_to_movies` FOREIGN KEY (`movie_id`) REFERENCES `movies` (`id`),
+  ADD CONSTRAINT `fk_vote_tracker_to_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 COMMIT;
